@@ -1,8 +1,10 @@
 import { crearClienteServidor } from "@/lib/supabase/server";
 import Link from "next/link";
+import { obtenerPerfilActual, esAdministrador } from "@/lib/auth/obtenerPerfilActual";
 
 export default async function PaginaDashboard() {
   const supabase = await crearClienteServidor();
+  const perfil = await obtenerPerfilActual();
 
   const { data: tipos } = await supabase
     .from("tipos_resolucion")
@@ -13,9 +15,19 @@ export default async function PaginaDashboard() {
   return (
     <main className="min-h-screen bg-slate-50 p-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-xl font-semibold text-slate-900 mb-1">
-          ¿Qué resolución necesitas generar?
-        </h1>
+        <div className="flex items-center justify-between mb-1">
+          <h1 className="text-xl font-semibold text-slate-900">
+            ¿Qué resolución necesitas generar?
+          </h1>
+          {esAdministrador(perfil) && (
+            <Link
+              href="/dashboard/admin"
+              className="text-xs text-blue-700 hover:underline"
+            >
+              Administración
+            </Link>
+          )}
+        </div>
         <p className="text-sm text-slate-500 mb-6">
           Selecciona el tipo de resolución para continuar.
         </p>
