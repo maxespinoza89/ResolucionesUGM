@@ -199,7 +199,7 @@ export default function PaginaTiposResolucion() {
               placeholder="Que la solicitud presentada por {{estudiante}}..."
             />
             <p className="text-xs text-slate-400 mt-1">
-              Usa {"{{clave_del_campo}}"} para insertar las respuestas del formulario.
+              Usa dobles llaves con el nombre del campo para insertar las respuestas del formulario, por ejemplo: llave-llave estudiante llave-llave.
             </p>
           </div>
 
@@ -243,3 +243,32 @@ export default function PaginaTiposResolucion() {
 
         <h2 className="font-semibold text-slate-800 text-sm mb-3">
           Tipos existentes
+        </h2>
+
+        {cargando ? (
+          <p className="text-sm text-slate-500">Cargando...</p>
+        ) : (
+          <div className="grid gap-2">
+            {tipos.map((t) => (
+              <div
+                key={t.id}
+                className="bg-white border border-slate-200 rounded-lg p-4 flex items-center justify-between"
+              >
+                <div>
+                  <p className="font-semibold text-slate-900 text-sm">{t.nombre}</p>
+                  <p className="text-xs text-slate-500">{t.titulo_encabezado}</p>
+                </div>
+                <button
+                  onClick={() => empezarEdicion(t)}
+                  className="text-xs text-blue-700 hover:underline"
+                >
+                  Editar
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}
